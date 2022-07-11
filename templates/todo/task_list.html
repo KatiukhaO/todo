@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %} <title>Tasks</title>{% endblock %}
+{% block content %}
+
+        <h1>Tasks
+
+        <a class="btn btn-outline-primary" style="float: right" href="{% url "todo:task_create" %}">add new task</a>
+        </h1>
+            <hr>
+
+        {% for task in tasks %}
+
+            {% autoescape off %}
+                {{ task.content|linebreaks|truncatewords:15 }}
+                <h6>
+                <h6>Deadline : {{ task.deadline }}</h6>
+                Tags:
+                {% for tag in task.tags.all %}
+                    {{ tag }},
+                {% endfor %}
+                 </h6>
+                <h6>
+                    <a href="{{ task.get_absolute_url }}">detail</a>
+                    <a style="color: green; margin-left: 25px" href="{% url "todo:task_update" pk=task.id %}">update</a>
+                    <a style="color: red; margin-left: 25px" href="{% url "todo:task_delete" pk=task.id %}">delete</a>
+                </h6>
+                <hr>
+            {% endautoescape %}
+        {% endfor %}
+{% endblock %}

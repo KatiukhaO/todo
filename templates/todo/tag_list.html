@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} <title>Tags</title>{% endblock %}
+{% block content %}
+    <h1>Tags
+        <a class="btn btn-outline-primary" style="float: right" href="{% url "todo:tag_create" %}">add new tag</a>
+    </h1>
+
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>UPDATE</th>
+        <th>DELETE</th>
+      </tr>
+
+    {% for tag in tags %}
+    <tr>
+        <td>{{ tag.id }}</td>
+        <td><h6><a href="{{ tag.get_absolute_url }}">{{ tag }}</a></h6></td>
+        <td><h6><a href="{% url "todo:tag_update" slug=tag.slug %}">update</a></h6></td>
+        <td><h6><a style="color: red" href="{% url "todo:tag_delete" slug=tag.slug %}">delete</a></h6></td>
+
+
+        {% endfor %}
+    </tr>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} <title>{{ tag.name }}</title>{% endblock %}
+{% block content %}
+    <h1>{{ tag.name.title }}</h1>
+        <ul><h3>Tasks :</h3></ul>
+            {% for task in tag.tasks.all %}
+                <hr>
+
+                <li>{{ task.content|truncatewords:12 }}</li>
+
+
+            {% endfor %}
+
+
+{% endblock %}
