@@ -15,6 +15,7 @@ class TaskForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+    deadline = forms.SplitDateTimeField()
 
     class Meta:
         model = Task

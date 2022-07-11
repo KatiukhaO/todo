@@ -13,13 +13,23 @@
 
             {% autoescape off %}
                 {{ task.content|linebreaks|truncatewords:15 }}
+                {% if not task.done %}
+                    <h6 style="color: red">Status : NOT DONE</h6>
+                    <a class="btn btn-outline-success" style="float: right" href="{% url "todo:change_status_for_task" pk=task.id %}">Done</a>
+                {% else %}
+                     <h6 style="color: green; ">Status : DONE</h6>
+                    <a class="btn btn-outline-secondary" style="float: right" href="{% url "todo:change_status_for_task" pk=task.id %}">Undo</a>
+                {% endif %}
                 <h6>
-                <h6>Deadline : {{ task.deadline }}</h6>
-                Tags:
-                {% for tag in task.tags.all %}
-                    {{ tag }},
-                {% endfor %}
-                 </h6>
+                    <h6>Deadline : {{ task.create_task }}</h6>
+                    <h6 style="color: darkred">Deadline : {{ task.deadline }}</h6>
+                        <h6>
+                            Tags:
+                            {% for tag in task.tags.all %}
+                                {{ tag }},
+                            {% endfor %}
+                        </h6>
+                     </h6>
                 <h6>
                     <a href="{{ task.get_absolute_url }}">detail</a>
                     <a style="color: green; margin-left: 25px" href="{% url "todo:task_update" pk=task.id %}">update</a>

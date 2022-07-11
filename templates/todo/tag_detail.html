@@ -7,7 +7,10 @@
             {% for task in tag.tasks.all %}
                 <hr>
 
-                <li>{{ task.content|truncatewords:12 }}</li>
+                <li>{{ task.content|truncatewords:12 }}
+                    <strong>
+                        <a style="float: right" href="{{ task.get_absolute_url }}">detail</a></li>
+                    </strong>
 
 
             {% endfor %}

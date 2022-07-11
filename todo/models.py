@@ -4,7 +4,8 @@ from django.urls import reverse
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255, null=True, unique=True, blank=False)
+    slug = models.SlugField(max_length=255, null=True,
+                            unique=True, blank=False)
 
     class Meta:
         verbose_name = "tag"
@@ -12,7 +13,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
 
     def get_absolute_url(self):
         return reverse("todo:tag_detail", kwargs={"slug": self.slug})

@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from todo.forms import TagForm, TaskForm
 from todo.models import Tag, Task
-
 
 
 class TagListView(generic.ListView):
@@ -39,6 +38,7 @@ class TagDeleteView(generic.DeleteView):
 
 class TaskListView(generic.ListView):
     model = Task
+    queryset = Task.objects.all().order_by("done", "-create_task")
     template_name = "todo/task_list.html"
     context_object_name = "tasks"
     success_url = reverse_lazy("todo:task_list")
@@ -55,12 +55,21 @@ class TaskCreateView(generic.CreateView):
     form_class = TaskForm
     success_url = reverse_lazy("todo:task_list")
 
+
 class TaskUpdateView(generic.UpdateView):
     model = Task
     template_name = "todo/task_form.html"
     form_class = TaskForm
     success_url = reverse_lazy("todo:task_list")
 
+
 class TaskDeleteView(generic.DeleteView):
     model = Task
     success_url = reverse_lazy("todo:task_list")
+
+
+def change_status_task(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.done = not task.done
+    task.save()
+    return HttpResponseRedirect(reverse("todo:task_list"))
