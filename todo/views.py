@@ -38,7 +38,8 @@ class TagDeleteView(generic.DeleteView):
 
 class TaskListView(generic.ListView):
     model = Task
-    queryset = Task.objects.all().order_by("done", "-create_task")
+    queryset = Task.objects.all().prefetch_related(
+        "tags").order_by("done", "-create_task")
     template_name = "todo/task_list.html"
     context_object_name = "tasks"
     success_url = reverse_lazy("todo:task_list")
