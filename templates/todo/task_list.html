@@ -8,6 +8,7 @@
         <a class="btn btn-outline-primary" style="float: right" href="{% url "todo:task_create" %}">add new task</a>
         </h1>
             <hr>
+        <div style="margin: 20px 20px">{% include "includes/search.html" %}</div>
 
         {% for task in tasks %}
 

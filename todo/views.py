@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
-from todo.forms import TagForm, TaskForm
+from todo.forms import TagForm, TaskForm, SearchForm
 from todo.models import Tag, Task
 
 
@@ -43,6 +43,18 @@ class TaskListView(generic.ListView):
     template_name = "todo/task_list.html"
     context_object_name = "tasks"
     success_url = reverse_lazy("todo:task_list")
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tags = self.request.GET.get("tags", "")
+        context["search_form"] = SearchForm(initial={"tags": tags})
+        return context
+
+    def get_queryset(self):
+        form = SearchForm(self.request.GET)
+        if form.is_valid():
+            return self.queryset.filter(tags__name__icontains=form.cleaned_data["tags"])
+        return self.queryset
 
 
 class TaskDetailView(generic.DetailView):

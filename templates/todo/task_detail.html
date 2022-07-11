@@ -6,7 +6,7 @@
     <ul>{{ task.content }}</ul>
     <h6><ul><strong>Date of create task:</strong> {{ task.create_task }}</ul></h6>
     <h6><ul><strong>Deadline:</strong> {{ task.deadline }}</ul></h6>
-    <h6><ul><strong>Status:</strong> {{ task.done }}</ul></h6>
+    <h6><ul><strong>Status: </strong>{{ object.done|yesno:"DONE,NOT DONE" }}</ul></h6>
     {% for tag in task.tags.all %}
         <h6><ul>Tags: <a href="{{ tag.get_absolute_url }}"> {{ tag }}</a></ul></h6>
     {% endfor %}

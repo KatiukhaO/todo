@@ -25,3 +25,13 @@ class TaskForm(forms.ModelForm):
         fields = ("content",
                   "deadline",
                   "tags")
+
+
+class SearchForm(forms.Form):
+    tags = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(
+            attrs={"placeholder": "search by tag..."})
+    )
