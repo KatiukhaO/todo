@@ -46,14 +46,15 @@ class TaskListView(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        tags = self.request.GET.get("tags", "")
-        context["search_form"] = SearchForm(initial={"tags": tags})
+        tag = self.request.GET.get("tag_name", "")
+        context["search_form"] = SearchForm(initial={"tag_name": tag})
         return context
 
     def get_queryset(self):
         form = SearchForm(self.request.GET)
         if form.is_valid():
-            return self.queryset.filter(tags__name__icontains=form.cleaned_data["tags"])
+            return self.queryset.filter(
+                tags__name__icontains=form.cleaned_data["tag_name"]).distinct()
         return self.queryset
 
 
